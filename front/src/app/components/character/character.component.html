@@ -1,0 +1,21 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title
+      >{{ character().full_name }} ({{ character().race }})</mat-card-title
+    >
+    <mat-card-subtitle>{{ character().gender }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ character().description }}</p>
+    <p><strong>Attitude:</strong> {{ character().attitude }}</p>
+    <p><strong>Quête:</strong> {{ character().quest }}</p>
+    <h3>Loot :</h3>
+    <ul>
+      @for(item of character().loot; track item.name) {
+      <li>
+        <strong>{{ item.name }}:</strong> {{ item.description }}
+      </li>
+      }
+    </ul>
+  </mat-card-content>
+</mat-card>
