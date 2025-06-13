@@ -3,10 +3,11 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    openai_api_key: str
-    
+    mistral_api_key: str
+    mistral_agent_name: str
+
     model_config = SettingsConfigDict(env_file=".env")
     
 @lru_cache
-def get_settings():
+def get_settings() -> Settings:
     return Settings()

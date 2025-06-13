@@ -1,15 +1,13 @@
 import enum
-from functools import lru_cache
-
 import json
-from typing import Annotated, Union
+from typing import Annotated
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-
-from openai import OpenAI
+from mistralai import Mistral
 from pydantic import BaseModel
-from config import get_settings 
+
+from config import get_settings
 
 app = FastAPI()
 
@@ -41,14 +39,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/character")
 def read_root(race: Annotated[Race, Query()], language: Annotated[Languages, Query()]):
-    client = OpenAI(
-        api_key=get_settings().openai_api_key,
+    client = Mistral(
+        api_key=get_settings().mistral_api_key,
     )
     
-    completion = client.chat.completions.create(
-    model="gpt-4o-mini",
+    response = client.chat.complete(
+        model=get_settings().mistral_agent_name,
         messages=[
             {
                 "role": "system", 
@@ -69,5 +68,7 @@ quest (a quest that this character could give to the players)"""
             }
         ]
     )
+
+
     
-    return json.loads(completion.choices[0].message.content)
+    return json.loads(response.choices[0].message.content)
