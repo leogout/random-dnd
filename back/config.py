@@ -7,7 +7,8 @@ class Settings(BaseSettings):
     mistral_agent_name: str
 
     model_config = SettingsConfigDict(env_file=".env")
-    
+
+
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    return Settings()  # ty: ignore[missing-argument]

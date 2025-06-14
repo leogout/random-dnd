@@ -2,11 +2,15 @@ name: Backend CI
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
-  backend-lint:
+  lint:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back/
 
     steps:
       - uses: actions/checkout@v4
@@ -15,29 +19,26 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
+          cache-dependency-glob: back/uv.lock
 
-      - name: "Set up Python"
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: ".python-version"
-
-      - name: Go into the backend directory
-        run: cd back/
+          python-version-file: back/.python-version
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
 
       - name: Run lint
-        run: uv run ruff .
-
-      - name: Run type checker
-        run: uv run mypy .
+        run: uv run ruff check
 
 
-  backend-tests:
-    needs: [ backend-lint ]
+  typing:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back/
 
     steps:
       - uses: actions/checkout@v4
@@ -46,21 +47,44 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
+          cache-dependency-glob: back/uv.lock
 
-      - name: "Set up Python"
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: ".python-version"
+          python-version-file: back/.python-version
 
-      - name: Go into the backend directory
-        run: cd back/
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Run type checker
+        run: uv run ty check
+
+
+  test:
+    needs: [ lint ]
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back/
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: back/uv.lock
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: back/.python-version
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
 
       - name: Run tests
         run: uv run pytest tests
-
-      - name: Run lint
-        run: uv run ruff .

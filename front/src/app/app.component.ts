@@ -8,7 +8,6 @@ import {
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterOutlet } from '@angular/router';
 import { CharacterComponent } from './components/character/character.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { Character } from './models';
@@ -17,7 +16,6 @@ import { ApiService } from './services/api.service';
 @Component({
     selector: 'app-root',
     imports: [
-        RouterOutlet,
         CharacterComponent,
         ToolbarComponent,
         MatButton,
