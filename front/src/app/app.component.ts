@@ -15,20 +15,19 @@ import { Character } from './models';
 import { ApiService } from './services/api.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    CharacterComponent,
-    ToolbarComponent,
-    MatButton,
-    MatFormFieldModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        CharacterComponent,
+        ToolbarComponent,
+        MatButton,
+        MatFormFieldModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   character: Character | undefined;
