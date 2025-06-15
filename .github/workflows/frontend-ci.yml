@@ -7,14 +7,14 @@ on:
 jobs:
 
   test:
-    uses: ./.github/workflows/reusable/frontend-setup.yml@main
+    uses: ./.github/workflows/reusable/frontend-setup.yml
     with:
       job-name: Testing
       run-command: npm test
 
   build:
     needs: [ test ]
-    uses: ./.github/workflows/reusable/frontend-setup.yml@main
+    uses: ./.github/workflows/reusable/frontend-setup.yml
     with:
       job-name: Building Angular project
       run-command: npm run build -- --configuration production
