@@ -1,20 +1,14 @@
 name: Reusable Docker Build and Push
 
 on:
-  workflow_call:
-    inputs:
-      image_name:
-        required: true
-        type: string
-      dockerfile_path:
-        required: true
-        type: string
-      tag:
-        required: true
-        type: string
-    secrets:
-      github_token:
-        required: true
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: random-jdr
 
 jobs:
   build-and-push:
@@ -34,10 +28,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.github_token }}
 
-      - name: Construire et Pousser l'image Docker
+      - name: Construire et Pousser l'image Docker frontend
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: front
           push: true
-          tags: ghcr.io/${{ inputs.image_name }}:${{ inputs.tag }}
-          file: ${{ inputs.dockerfile_path }}
+          tags: ghcr.io/${{ env.IMAGE_NAME }}-frontend:${{ github.ref_name }}
+
+      - name: Construire et Pousser l'image Docker backend
+        uses: docker/build-push-action@v5
+        with:
+          context: back
+          push: true
+          tags: ghcr.io/${{ env.IMAGE_NAME }}-backend:${{ github.ref_name }}
