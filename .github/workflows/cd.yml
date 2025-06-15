@@ -25,7 +25,7 @@ jobs:
       - name: Construire et Pousser l'image Docker frontend
         uses: docker/build-push-action@v6
         with:
-          context: front
+          context: {{ defaultContext }}:front
           push: true
           tags: random-jdr-frontend:${{ github.ref_name }}
 
@@ -35,6 +35,6 @@ jobs:
       - name: Construire et Pousser l'image Docker backend
         uses: docker/build-push-action@v6
         with:
-          context: back
+          context: {{ defaultContext }}:back
           push: true
           tags: random-jdr-backend:${{ github.ref_name }}
