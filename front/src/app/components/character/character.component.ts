@@ -8,11 +8,10 @@ import {
 import { Character } from '../../models';
 
 @Component({
-  selector: 'app-character',
-  standalone: true,
-  imports: [MatCardModule, MatCardTitle, MatCardSubtitle, MatCardContent],
-  templateUrl: './character.component.html',
-  styleUrl: './character.component.scss',
+    selector: 'app-character',
+    imports: [MatCardModule, MatCardTitle, MatCardSubtitle, MatCardContent],
+    templateUrl: './character.component.html',
+    styleUrl: './character.component.scss'
 })
 export class CharacterComponent {
   character = input.required<Character>();

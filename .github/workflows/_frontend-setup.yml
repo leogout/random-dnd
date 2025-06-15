@@ -1,0 +1,37 @@
+name: Reusable Backend Setup
+
+on:
+  workflow_call:
+    inputs:
+      run-command:
+        description: "The command to run after setup"
+        required: true
+        type: string
+      job-name:
+        description: "The name of the job to display"
+        required: true
+        type: string
+
+jobs:
+  run-command:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: front/
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run - ${{ inputs.job-name }}
+        run: ${{ inputs.run-command }}

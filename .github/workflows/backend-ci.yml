@@ -1,0 +1,25 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    uses: ./.github/workflows/_backend-setup.yml
+    with:
+      job-name: Lint
+      run-command: uv run ruff check
+
+  typing:
+    uses: ./.github/workflows/_backend-setup.yml
+    with:
+      job-name: Type Checking
+      run-command: uv run ty check
+
+  test:
+    needs: [ lint, typing ]
+    uses: ./.github/workflows/_backend-setup.yml
+    with:
+      job-name: Tests
+      run-command: uv run pytest tests

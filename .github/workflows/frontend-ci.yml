@@ -1,0 +1,20 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  test:
+    uses: ./.github/workflows/_frontend-setup.yml
+    with:
+      job-name: Testing
+      run-command: npm test
+
+  build:
+    needs: [ test ]
+    uses: ./.github/workflows/_frontend-setup.yml
+    with:
+      job-name: Building Angular project
+      run-command: npm run build -- --configuration production
