@@ -1,4 +1,4 @@
-apiVersion: v1
+piVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "random-jdr.fullname" . }}-test-connection"
@@ -8,8 +8,22 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
+    {{- if .Values.backend.enabled }}
+    - name: test-backend-connection
       image: busybox
       command: ['wget']
-      args: ['{{ include "random-jdr.fullname" . }}:{{ .Values.service.port }}']
+      args:
+        - --spider
+        - --timeout=5
+        - "{{ .Values.backend.name }}:{{ .Values.backend.service.port }}"
+    {{- end }}
+    {{- if .Values.frontend.enabled }}
+    - name: test-frontend-connection
+      image: busybox
+      command: ['wget']
+      args:
+        - --spider
+        - --timeout=5
+        - "{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}"
+    {{- end }}
   restartPolicy: Never
