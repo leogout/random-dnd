@@ -1,0 +1,15 @@
+# Node modules
+node_modules
+npm-debug.log
+.angular/cache
+
+.gitignore
+
+# Other temporary files or build outputs not needed in the final image
+tmp/
+dist/
+e2e/
+cypress/
+karma.conf.js
+setup-jest.ts
+jest.config.js
