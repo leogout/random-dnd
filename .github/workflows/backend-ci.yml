@@ -6,20 +6,20 @@ on:
 
 jobs:
   lint:
-    uses: ./.github/workflows/reusable/backend-setup.yml
+    uses: ./.github/reusable/backend-setup.yml
     with:
       job-name: Lint
       run-command: uv run ruff check
 
   typing:
-    uses: ./.github/workflows/reusable/backend-setup.yml
+    uses: ./.github/reusable/backend-setup.yml
     with:
       job-name: Type Checking
       run-command: uv run ty check
 
   test:
     needs: [ lint, typing ]
-    uses: ./.github/workflows/reusable/backend-setup.yml
+    uses: ./.github/reusable/backend-setup.yml
     with:
       job-name: Tests
       run-command: uv run pytest tests
