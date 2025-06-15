@@ -11,7 +11,7 @@ env:
 
 jobs:
   call-build-and-push:
-    uses: ./.github/workflows/reusable/cd.yml
+    uses: ./.github/workflows/_cd.yml
     with:
       image_name: ${{ env.IMAGE_NAME }}
       dockerfile_path: ${{ env.DOCKERFILE_PATH }}
