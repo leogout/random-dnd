@@ -1,0 +1,20 @@
+name: CD - Déploiement frontend vers GitHub Container Registry
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  IMAGE_NAME: random-jdr-frontend
+  DOCKERFILE_PATH: front/Dockerfile
+
+jobs:
+  call-build-and-push:
+    uses: ./.github/workflows/reusable/cd.yml
+    with:
+      image_name: ${{ env.IMAGE_NAME }}
+      dockerfile_path: ${{ env.DOCKERFILE_PATH }}
+      tag: ${{ github.ref_name }}
+    secrets:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
