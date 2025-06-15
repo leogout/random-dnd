@@ -7,9 +7,6 @@ on:
     branches:
       - main
 
-env:
-  IMAGE_NAME: random-jdr
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -33,11 +30,11 @@ jobs:
         with:
           context: front
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}-frontend:${{ github.ref_name }}
+          tags: ghcr.io/random-jdr-frontend:${{ github.ref_name }}
 
       - name: Construire et Pousser l'image Docker backend
         uses: docker/build-push-action@v5
         with:
           context: back
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}-backend:${{ github.ref_name }}
+          tags: ghcr.io/random-jdr-backend:${{ github.ref_name }}
