@@ -1,0 +1,134 @@
+global:
+  appName: random-jdr
+  environment: production
+  imagePullPolicy: IfNotPresent
+
+backend:
+  enabled: true
+  name: random-jdr-backend
+  nameOverride: random-jdr-backend
+  image:
+    name: "random-jdr-backend"
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+#  env:
+#    - name: ENV_VAR_EXAMPLE
+#      value: "production_value"
+  probes:
+    livenessProbe:
+      httpGet:
+        path: /api/status
+        port: 8000
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+    readinessProbe:
+      httpGet:
+        path: /api/status
+        port: 8000
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 3
+      failureThreshold: 3
+
+#   Stratégie d'anti-affinité pour répartir les pods sur différents nœuds
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: random-jdr-backend
+            topologyKey: "kubernetes.io/hostname"
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+frontend:
+  enabled: true
+  name: random-jdr-frontend
+  nameOverride: random-jdr-frontend
+  image:
+    name: "random-jdr-frontend"
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  probes:
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 3
+      failureThreshold: 2
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: random-jdr-frontend
+            topologyKey: "kubernetes.io/hostname"
+  service:
+    type: ClusterIP
+    port: 80
+
+ingress:
+  enabled: true
+  name: random-jdr-ingress
+  className: nginx
+  hosts:
+    - host: random-jdr.leogout.com # Remplacez par votre domaine
+      paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: random-jdr-backend
+              port:
+                number: 8000
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: random-jdr-frontend
+              port:
+                number: 80
+#  tls:
+#    - secretName: random-jdr-tls # Nom du secret Kubernetes contenant votre certificat TLS
+#      hosts:
+#        - random-jdr.leogout.com # Remplacez par votre domaine
+
+serviceAccount:
+  create: true
+  name: "{{ .Release.Name }}"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80

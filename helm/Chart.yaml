@@ -1,0 +1,6 @@
+apiVersion: v2
+name: random-jdr
+description: Helm chart for Random JDR
+type: application
+version: 0.0.1
+appVersion: "0.0.1"

@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "random-jdr.backend.fullname" . }}
+  labels:
+    {{- include "random-jdr.backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "random-jdr.backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "random-jdr.backend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecret }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.backend.nameOverride }}
+          {{- include "random-jdr.backend.imageSpec" . | nindent 10 }}
+{{/*          env:*/}}
+{{/*            - name: OAUTH_CLIENT_ID*/}}
+{{/*              value: {{ .Values.backend.config.OAUTH_CLIENT_ID }}*/}}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/v1/liveness
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/readiness
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "random-jdr.frontend.fullname" . }}
+  labels:
+    {{- include "random-jdr.frontend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "random-jdr.frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "random-jdr.frontend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecret }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.frontend.nameOverride }}
+          {{- include "random-jdr.frontend.imageSpec" . | nindent 10 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.frontend.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.frontend.service.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.frontend.service.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}

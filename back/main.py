@@ -25,6 +25,16 @@ app.add_middleware(
 
 logger = logging.getLogger('uvicorn.error')
 
+@app.get("/v1/liveness", status_code=200)
+def liveness():
+    pass
+
+
+@app.get("/v1/readiness", status_code=200)
+def readiness():
+    pass
+
+
 @app.get("/character")
 def read_root(race: Annotated[Race, Query()], language: Annotated[Languages, Query()]):
     client = Mistral(

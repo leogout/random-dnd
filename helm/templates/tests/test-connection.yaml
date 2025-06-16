@@ -1,0 +1,29 @@
+piVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "random-jdr.fullname" . }}-test-connection"
+  labels:
+    {{- include "random-jdr.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    {{- if .Values.backend.enabled }}
+    - name: test-backend-connection
+      image: busybox
+      command: ['wget']
+      args:
+        - --spider
+        - --timeout=5
+        - "{{ .Values.backend.name }}:{{ .Values.backend.service.port }}"
+    {{- end }}
+    {{- if .Values.frontend.enabled }}
+    - name: test-frontend-connection
+      image: busybox
+      command: ['wget']
+      args:
+        - --spider
+        - --timeout=5
+        - "{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}"
+    {{- end }}
+  restartPolicy: Never
