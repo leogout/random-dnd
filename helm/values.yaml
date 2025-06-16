@@ -6,9 +6,9 @@ global:
 backend:
   enabled: true
   name: random-jdr-backend
+  nameOverride: random-jdr-backend
   image:
-    repository: "ghcr.io/{{ .Values.github.repository_owner }}/random-jdr-backend"
-    tag: "{{ .Values.github.ref_name }}"
+    name: "random-jdr-backend"
   replicaCount: 3
   resources:
     limits:
@@ -56,9 +56,9 @@ backend:
 frontend:
   enabled: true
   name: random-jdr-frontend
+  nameOverride: random-jdr-frontend
   image:
-    repository: "ghcr.io/{{ .Values.github.repository_owner }}/random-jdr-frontend"
-    tag: "{{ .Values.github.ref_name }}"
+    name: "random-jdr-frontend"
   replicaCount: 3
   resources:
     limits:
@@ -102,7 +102,7 @@ ingress:
   name: random-jdr-ingress
   className: nginx
   hosts:
-    - host: random-jdr.example.com # Remplacez par votre domaine
+    - host: random-jdr.leogout.com # Remplacez par votre domaine
       paths:
         - path: /api
           pathType: Prefix
@@ -121,15 +121,11 @@ ingress:
 #  tls:
 #    - secretName: random-jdr-tls # Nom du secret Kubernetes contenant votre certificat TLS
 #      hosts:
-#        - random-jdr.example.com # Remplacez par votre domaine
+#        - random-jdr.leogout.com # Remplacez par votre domaine
 
 serviceAccount:
   create: true
   name: "{{ .Release.Name }}"
-
-github:
-  repository_owner: ""
-  ref_name: ""
 
 autoscaling:
   enabled: true

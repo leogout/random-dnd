@@ -97,12 +97,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the image and imagePullPolicy values for backend container based on values
 */}}
 {{- define "random-jdr.backend.imageSpec" -}}
-{{/* Map AppVersion to image name */}}
-{{- $version := .Values.backend.image.tag | default .Chart.AppVersion -}}
-image: {{ printf "%s:%s" .Values.backend.image.repository $version | quote }}
-{{- if contains $version "main" }}
-imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "Always" }}
-{{- else if contains $version "develop" }}
+{{- $repoOwner := .Values.github.repository_owner -}}
+{{- $tag := .Values.github.tag -}}
+{{- $imageName := .Values.backend.image.name -}}
+image: {{ printf "ghcr.io/%s/%s:%s" $repoOwner $imageName $tag | quote }}
+{{- if or (contains $tag "main") (contains $tag "develop") }}
 imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "Always" }}
 {{- else }}
 imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "IfNotPresent" }}
@@ -145,12 +144,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the image and imagePullPolicy values for frontend container based on values
 */}}
 {{- define "random-jdr.frontend.imageSpec" -}}
-{{/* Map AppVersion to image name */}}
-{{- $version := .Values.frontend.image.tag | default .Chart.AppVersion -}}
-image: {{ printf "%s:%s" .Values.frontend.image.repository $version | quote }}
-{{- if contains $version "main" }}
-imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "Always" }}
-{{- else if contains $version "develop" }}
+{{- $repoOwner := .Values.github.repository_owner -}}
+{{- $tag := .Values.github.tag -}}
+{{- $imageName := .Values.frontend.image.name -}}
+image: {{ printf "ghcr.io/%s/%s:%s" $repoOwner $imageName $tag | quote }}
+{{- if or (contains $tag "main") (contains $tag "develop") }}
 imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "Always" }}
 {{- else }}
 imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "IfNotPresent" }}
