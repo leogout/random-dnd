@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "random-jdr.backend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.backend.replicaCount }}
   selector:
     matchLabels:
       {{- include "random-jdr.backend.selectorLabels" . | nindent 6 }}
@@ -30,15 +30,15 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/v1/liveness
+              path: /v1/liveness
               port: {{ .Values.backend.service.port }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /api/v1/readiness
+              path: /v1/readiness
               port: {{ .Values.backend.service.port }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
             periodSeconds: 30
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
@@ -51,7 +51,7 @@ metadata:
   labels:
     {{- include "random-jdr.frontend.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
       {{- include "random-jdr.frontend.selectorLabels" . | nindent 6 }}
