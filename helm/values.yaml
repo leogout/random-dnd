@@ -74,10 +74,10 @@ ingress:
               name: random-jdr-frontend
               port:
                 number: 80
-#  tls:
-#    - secretName: random-jdr-tls # Nom du secret Kubernetes contenant votre certificat TLS
-#      hosts:
-#        - random-jdr.leogout.fr # Remplacez par votre domaine
+  tls:
+    - secretName: random-jdr-tls
+      hosts:
+        - random-jdr.leogout.fr
 
 serviceAccount:
   create: true
