@@ -1,32 +1,38 @@
-{{- if .Values.autoscaling.enabled }}
+{{- range $name, $config := .Values.services }}
+{{- if $config.autoscaling.enabled }}
+---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "random-jdr.fullname" . }}
+  # Utilise la fonction fullname spécifique si elle existe, sinon utilise la convention
+  name: {{ printf "%s-hpa" (include (printf "random-jdr.fullname-%s" $name) $) }}
   labels:
-    {{- include "random-jdr.labels" . | nindent 4 }}
+    {{- include "random-jdr.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $name }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "random-jdr.fullname" . }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+    # Utilise la fonction fullname spécifique pour le targetRef
+    name: {{ include (printf "random-jdr.fullname-%s" $name) $ }}
+  minReplicas: {{ $config.autoscaling.minReplicas }}
+  maxReplicas: {{ $config.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if $config.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+          averageUtilization: {{ $config.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- if $config.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+          averageUtilization: {{ $config.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
+{{- end }}
 {{- end }}

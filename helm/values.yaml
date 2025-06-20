@@ -17,6 +17,11 @@ backend:
     requests:
       cpu: 200m
       memory: 256Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
 #  env:
 #    - name: ENV_VAR_EXAMPLE
 #      value: "production_value"
@@ -42,6 +47,11 @@ frontend:
   service:
     type: ClusterIP
     port: 80
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
 
 ingress:
   enabled: true
@@ -72,9 +82,3 @@ ingress:
 serviceAccount:
   create: true
   name: "{{ .Release.Name }}"
-
-autoscaling:
-  enabled: true
-  minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
