@@ -87,3 +87,14 @@ ingress:
 serviceAccount:
   create: true
   name: "{{ .Release.Name }}"
+
+postgresql:
+  enabled: true
+  auth:
+    username: "postgres"
+    password: "postgres"
+    database: "random_jdr"
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
