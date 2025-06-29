@@ -98,3 +98,7 @@ postgresql:
     persistence:
       enabled: true
       size: 8Gi
+
+github:
+  repository_owner: "leogout"
+  tag: main
