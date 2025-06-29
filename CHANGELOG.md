@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/leogout/random-dnd/compare/v0.3.0...v0.3.1) (2025-06-29)
+
+
+### Bug Fixes
+
+* **cd:** forcing the tags to build new docker images ([5580dc2](https://github.com/leogout/random-dnd/commit/5580dc24a8e43b4ab92a463392636a2f4edd01e6))
+* **cd:** forcing the tags to build new docker images ([d01f061](https://github.com/leogout/random-dnd/commit/d01f0619b00b3e7facdd3c96e799cb362d748980))
+
 ## [0.3.0](https://github.com/leogout/random-dnd/compare/v0.2.0...v0.3.0) (2025-06-29)
 
 
