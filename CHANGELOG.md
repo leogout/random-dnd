@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/leogout/random-dnd/compare/v0.3.3...v0.3.4) (2025-06-29)
+
+
+### Bug Fixes
+
+* **release-please:** added PAT to release-please action ([4c131d4](https://github.com/leogout/random-dnd/commit/4c131d44e650ce4ed11eb53fcad87209ce755bbf))
+
 ## [0.3.2](https://github.com/leogout/random-dnd/compare/v0.3.1...v0.3.2) (2025-06-29)
 
 
