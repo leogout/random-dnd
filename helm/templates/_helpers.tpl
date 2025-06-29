@@ -97,10 +97,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the image and imagePullPolicy values for backend container based on values
 */}}
 {{- define "random-jdr.backend.imageSpec" -}}
-{{- $repoOwner := .Values.github.repository_owner -}}
-{{- $tag := .Values.github.tag -}}
+{{- $tag := .Values.image.tag -}}
+{{- $registry := .Values.image.registry -}}
 {{- $imageName := .Values.backend.image.name -}}
-image: {{ printf "ghcr.io/%s/%s:%s" $repoOwner $imageName $tag | quote }}
+image: {{ printf "%s/%s:%s" $registry $imageName $tag | quote }}
 {{- if or (contains $tag "main") (contains $tag "develop") }}
 imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "Always" }}
 {{- else }}
@@ -144,10 +144,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the image and imagePullPolicy values for frontend container based on values
 */}}
 {{- define "random-jdr.frontend.imageSpec" -}}
-{{- $repoOwner := .Values.github.repository_owner -}}
-{{- $tag := .Values.github.tag -}}
+{{- $tag := .Values.image.tag -}}
+{{- $registry := .Values.image.registry -}}
 {{- $imageName := .Values.frontend.image.name -}}
-image: {{ printf "ghcr.io/%s/%s:%s" $repoOwner $imageName $tag | quote }}
+image: {{ printf "%s/%s:%s" $registry $imageName $tag | quote }}
 {{- if or (contains $tag "main") (contains $tag "develop") }}
 imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "Always" }}
 {{- else }}
