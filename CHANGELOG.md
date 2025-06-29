@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2](https://github.com/leogout/random-dnd/compare/v0.3.1...v0.3.2) (2025-06-29)
+
+
+### Bug Fixes
+
+* **cd:** watching for all kind of tags in cd ([d3a4631](https://github.com/leogout/random-dnd/commit/d3a463195439789b459548e6b5465277468e60ee))
+* **cd:** watching for all kind of tags in cd ([2112a22](https://github.com/leogout/random-dnd/commit/2112a22a551777acb8e946ea450760d98edce90c))
+
 ## [0.3.1](https://github.com/leogout/random-dnd/compare/v0.3.0...v0.3.1) (2025-06-29)
 
 
