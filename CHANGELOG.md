@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/leogout/random-dnd/compare/v0.1.0...v0.2.0) (2025-06-29)
+
+
+### Features
+
+* **helm:** add postgresql dependency ([aea8201](https://github.com/leogout/random-dnd/commit/aea8201db8adedaec28fa2da3c3cca5f84760a9a))
+
+
+### Bug Fixes
+
+* **ci:** update values file to include default github default values ([bd10dac](https://github.com/leogout/random-dnd/commit/bd10dac3e6bce8a7122722348208728410bda48f))
+
 ## [0.1.0](https://github.com/leogout/random-dnd/compare/v0.0.1...v0.1.0) (2025-06-29)
 
 
