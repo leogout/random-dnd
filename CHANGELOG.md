@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/leogout/random-dnd/compare/v0.2.0...v0.3.0) (2025-06-29)
+
+
+### Features
+
+* **cd:** cd now triggers to build images if a tag is created ([a7cf9a2](https://github.com/leogout/random-dnd/commit/a7cf9a255396acddf7e26ec86d11d646395b19d9))
+
 ## [0.2.0](https://github.com/leogout/random-dnd/compare/v0.1.0...v0.2.0) (2025-06-29)
 
 
