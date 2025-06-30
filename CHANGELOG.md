@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/leogout/random-dnd/compare/v0.3.4...v0.4.0) (2025-06-30)
+
+
+### Features
+
+* **db:** added postgresql database configuration ([6180f53](https://github.com/leogout/random-dnd/commit/6180f5356c83ed89bf77acf7771aae77b0554a6d))
+* **db:** added postgresql database configuration ([c56a230](https://github.com/leogout/random-dnd/commit/c56a2306fbfb30977015472df63367a4a73c551b))
+
 ## [0.3.4](https://github.com/leogout/random-dnd/compare/v0.3.3...v0.3.4) (2025-06-29)
 
 
