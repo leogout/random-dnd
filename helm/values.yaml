@@ -22,6 +22,9 @@ backend:
     minReplicas: 3
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
+  envFrom:
+    - secretRef:
+        name: github-secrets
 #  env:
 #    - name: ENV_VAR_EXAMPLE
 #      value: "production_value"
@@ -91,9 +94,7 @@ serviceAccount:
 postgresql:
   enabled: true
   auth:
-    username: "postgres"
-    password: "postgres"
-    database: "random_jdr"
+    existingSecret: "github-secrets"
   primary:
     persistence:
       enabled: true
