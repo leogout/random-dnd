@@ -5,11 +5,20 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from mistralai import Mistral
 
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
+
 from model import Race, Languages
 from config import get_settings
 import logging
 
 app = FastAPI()
+
+# Database setup
+settings = get_settings()
+
+engine = create_engine(settings.database_url)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 origins = [
     "http://localhost:4200",
@@ -33,6 +42,19 @@ def liveness():
 @app.get("/v1/readiness", status_code=200)
 def readiness():
     pass
+
+
+@app.get("/api/v1/db-check")
+def db_check():
+    try:
+        db = SessionLocal()
+        db.execute(text("SELECT 1"))
+        return {"status": "ok"}
+    except Exception as e:
+        logger.error(e)
+        return {"status": "error"}
+    finally:
+        db.close()
 
 
 @app.get("/character")
