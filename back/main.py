@@ -60,7 +60,7 @@ def db_check():
 @app.get("/character")
 def read_root(race: Annotated[Race, Query()], language: Annotated[Languages, Query()]):
     client = Mistral(
-        api_key=get_settings().mistral_api_key,
+        api_key=get_settings().llm_api_key,
     )
 
     logger.info(f"Generating a {race} character...")
@@ -81,7 +81,7 @@ def read_root(race: Annotated[Race, Query()], language: Annotated[Languages, Que
     """
 
     response = client.chat.complete(
-        model=get_settings().mistral_agent_name,
+        model=get_settings().llm_agent_name,
         messages=[
             {
                 "role": "system", 

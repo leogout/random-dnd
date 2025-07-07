@@ -101,5 +101,5 @@ postgresql:
       size: 8Gi
 
 image:
-  repository: "ghcr.io/leogout"
+  registry: "ghcr.io/leogout"
   tag: "v1.0.0"
