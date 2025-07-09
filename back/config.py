@@ -3,8 +3,8 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    mistral_api_key: str
-    mistral_agent_name: str
+    llm_api_key: str
+    llm_agent_name: str
     postgres_user: str
     postgres_password: str
     postgres_db: str
