@@ -22,8 +22,6 @@ spec:
         - name: {{ .Values.backend.nameOverride }}
           {{- include "random-jdr.backend.imageSpec" . | nindent 10 }}
           envFrom:
-            - configMapRef:
-                name: {{ include "random-jdr.backend.fullname" . }}-config
             {{- range .Values.backend.envFromSecrets }}
             - secretRef:
                 name: {{ . }}
