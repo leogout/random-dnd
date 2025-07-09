@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     llm_api_key: str = Field(alias='llm-api-key')
     llm_agent_name: str = Field(alias='llm-agent-name')
     postgres_user: str = Field(alias='postgres-user')
-    postgres_password: str = Field(alias='postgres-password')
+    postgres_password: str = Field(alias='password')
     postgres_db: str = Field(alias='postgres-db')
     postgres_host: str = Field(alias='postgres-host')
     postgres_port: int = Field(alias='postgres-port')
