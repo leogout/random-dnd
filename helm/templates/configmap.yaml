@@ -1,0 +1,10 @@
+{{- if .Values.backend.envVars }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "random-jdr.backend.fullname" . }}-config
+  labels:
+    {{- include "random-jdr.backend.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.backend.envVars | nindent 2 }}
+{{- end }}

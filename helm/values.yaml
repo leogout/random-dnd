@@ -22,13 +22,9 @@ backend:
     minReplicas: 3
     maxReplicas: 10
     targetCPUUtilizationPercentage: 80
-  envFrom:
-    - secretRef:
-        name: github-secrets
-#  env:
-#    - name: ENV_VAR_EXAMPLE
-#      value: "production_value"
-
+  envFromSecrets:
+    - llm-credentials
+    - db-credentials
   service:
     type: ClusterIP
     port: 8000
@@ -94,7 +90,7 @@ serviceAccount:
 postgresql:
   enabled: true
   auth:
-    existingSecret: "github-secrets"
+    existingSecret: "db-credentials"
   primary:
     persistence:
       enabled: true

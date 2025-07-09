@@ -22,10 +22,12 @@ spec:
         - name: {{ .Values.backend.nameOverride }}
           {{- include "random-jdr.backend.imageSpec" . | nindent 10 }}
           envFrom:
-            {{- toYaml .Values.backend.envFrom | nindent 12 }}
-{{/*          env:*/}}
-{{/*            - name: OAUTH_CLIENT_ID*/}}
-{{/*              value: {{ .Values.backend.config.OAUTH_CLIENT_ID }}*/}}
+            - configMapRef:
+                name: {{ include "random-jdr.backend.fullname" . }}-config
+            {{- range .Values.backend.envFromSecrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.backend.service.port }}
