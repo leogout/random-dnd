@@ -4,13 +4,13 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    llm_api_key: str = Field(alias='llm-api-key')
-    llm_agent_name: str = Field(alias='llm-agent-name')
-    postgres_user: str = Field(alias='postgres-user')
-    postgres_password: str = Field(alias='postgres-password')
-    postgres_db: str = Field(alias='postgres-db')
-    postgres_host: str = Field(alias='postgres-host')
-    postgres_port: int = Field(alias='postgres-port')
+    llm_api_key: str
+    llm_agent_name: str = "mistral-small-latest"
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
+    postgres_host: str
+    postgres_port: int = 5432
 
     model_config = SettingsConfigDict(env_file=".env")
 
