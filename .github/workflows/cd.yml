@@ -1,4 +1,4 @@
-name: Build and push to registry then deploy to cluster
+name: Build and push to registry
 
 on:
   push:

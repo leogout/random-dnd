@@ -105,6 +105,8 @@ postgresql:
   enabled: true
   auth:
     existingSecret: "db-credentials"
+    username: "leogout"
+    database: "random-jdr"
   primary:
     persistence:
       enabled: true
