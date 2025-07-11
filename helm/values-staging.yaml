@@ -1,5 +1,5 @@
 global:
-  appName: random-jdr-staging
+  appName: random-jdr
   environment: staging
   imagePullPolicy: IfNotPresent
 
