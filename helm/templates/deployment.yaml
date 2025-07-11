@@ -14,10 +14,6 @@ spec:
       labels:
         {{- include "random-jdr.backend.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecret }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       containers:
         - name: {{ .Values.backend.nameOverride }}
           {{- include "random-jdr.backend.imageSpec" . | nindent 10 }}
@@ -59,10 +55,6 @@ spec:
       labels:
         {{- include "random-jdr.frontend.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecret }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       containers:
         - name: {{ .Values.frontend.nameOverride }}
           {{- include "random-jdr.frontend.imageSpec" . | nindent 10 }}

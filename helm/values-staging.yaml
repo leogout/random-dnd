@@ -55,4 +55,11 @@ ingress:
         - random-jdr-staging.leogout.fr
 
 postgresql:
-  enabled: true
+  auth:
+    existingSecret: db-credentials-staging
+    username: leogout
+    database: random-jdr-staging
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi

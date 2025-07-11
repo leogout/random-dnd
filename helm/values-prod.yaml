@@ -4,11 +4,11 @@ global:
   imagePullPolicy: IfNotPresent
 
 backend:
-  replicaCount: 3
+  replicaCount: 1
   autoscaling:
     enabled: true
-    minReplicas: 3
-    maxReplicas: 10
+    minReplicas: 1
+    maxReplicas: 3
   env:
     - name: POSTGRES_HOST
       value: random-jdr-postgresql
@@ -28,11 +28,11 @@ backend:
           key: llm-api-key
 
 frontend:
-  replicaCount: 3
+  replicaCount: 1
   autoscaling:
     enabled: true
-    minReplicas: 3
-    maxReplicas: 10
+    minReplicas: 1
+    maxReplicas: 3
 
 ingress:
   enabled: true
@@ -59,4 +59,11 @@ ingress:
         - random-jdr.leogout.fr
 
 postgresql:
-  enabled: true
+  auth:
+    existingSecret: db-credentials
+    username: leogout
+    database: random-jdr
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
