@@ -18,5 +18,8 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Lint Helm chart
-        run: helm lint ./helm
+      - name: Lint Helm chart for staging
+        run: helm lint ./helm -f ./helm/values-staging.yaml
+
+      - name: Lint Helm chart for production
+        run: helm lint ./helm -f ./helm/values-prod.yaml

@@ -1,0 +1,65 @@
+global:
+  appName: random-jdr-staging
+  environment: staging
+  imagePullPolicy: IfNotPresent
+
+backend:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+  env:
+    - name: POSTGRES_HOST
+      value: random-jdr-staging-postgresql
+    - name: POSTGRES_USER
+      value: leogout
+    - name: POSTGRES_DB
+      value: random-jdr-staging
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: db-credentials-staging
+          key: password
+    - name: LLM_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: llm-credentials-staging
+          key: llm-api-key
+
+frontend:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+
+ingress:
+  enabled: true
+  hosts:
+    - host: random-jdr-staging.leogout.fr
+      paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: random-jdr-staging-backend
+              port:
+                number: 8000
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: random-jdr-staging-frontend
+              port:
+                number: 80
+  tls:
+    - secretName: random-jdr-staging-tls
+      hosts:
+        - random-jdr-staging.leogout.fr
+
+postgresql:
+  auth:
+    existingSecret: db-credentials-staging
+    username: leogout
+    database: random-jdr-staging
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi

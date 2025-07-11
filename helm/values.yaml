@@ -8,8 +8,7 @@ backend:
   name: random-jdr-backend
   nameOverride: random-jdr-backend
   image:
-    name: "random-jdr-backend"
-  replicaCount: 3
+    name: random-jdr-backend
   resources:
     limits:
       cpu: 500m
@@ -17,28 +16,6 @@ backend:
     requests:
       cpu: 200m
       memory: 256Mi
-  autoscaling:
-    enabled: true
-    minReplicas: 3
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 80
-  env:
-    - name: POSTGRES_HOST
-      value: random-jdr-postgresql
-    - name: POSTGRES_USER
-      value: leogout
-    - name: POSTGRES_DB
-      value: random-jdr
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: db-credentials
-          key: password
-    - name: LLM_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: llm-credentials
-          key: llm-api-key
   service:
     type: ClusterIP
     port: 8000
@@ -48,8 +25,7 @@ frontend:
   name: random-jdr-frontend
   nameOverride: random-jdr-frontend
   image:
-    name: "random-jdr-frontend"
-  replicaCount: 3
+    name: random-jdr-frontend
   resources:
     limits:
       cpu: 200m
@@ -60,11 +36,6 @@ frontend:
   service:
     type: ClusterIP
     port: 80
-  autoscaling:
-    enabled: true
-    minReplicas: 3
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 80
 
 ingress:
   enabled: true
@@ -74,44 +45,12 @@ ingress:
     annotations:
       kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  hosts:
-    - host: random-jdr.leogout.fr
-      paths:
-        - path: /api
-          pathType: Prefix
-          backend:
-            service:
-              name: random-jdr-backend
-              port:
-                number: 8000
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: random-jdr-frontend
-              port:
-                number: 80
-  tls:
-    - secretName: random-jdr-tls
-      hosts:
-        - random-jdr.leogout.fr
+      nginx.ingress.kubernetes.io/force-ssl-redirect: true
 
 serviceAccount:
   create: true
   name: "{{ .Release.Name }}"
 
-postgresql:
-  enabled: true
-  auth:
-    existingSecret: "db-credentials"
-    username: "leogout"
-    database: "random-jdr"
-  primary:
-    persistence:
-      enabled: true
-      size: 8Gi
-
 image:
-  registry: "ghcr.io/leogout"
-  tag: "v1.0.0"
+  registry: ghcr.io/leogout
+  tag: v1.0.0
