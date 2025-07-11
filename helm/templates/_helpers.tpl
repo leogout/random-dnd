@@ -16,9 +16,9 @@ If release name contains chart name it will be used as a full name.
 {{- else }}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Release.Name .Values.global.environment | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.global.environment | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -138,6 +138,7 @@ Selector labels for frontend
 {{- define "random-jdr.frontend.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "random-jdr.name" . }}-frontend
 app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/environment: {{ .Values.global.environment }}
 {{- end }}
 
 {{/*
