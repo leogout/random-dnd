@@ -14,12 +14,8 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- printf "%s-%s" .Release.Name .Values.global.environment | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s-%s" .Release.Name $name .Values.global.environment | trunc 63 | trimSuffix "-" }}
-{{- end }}
+{{- $name := default .Release.Name .Values.nameOverride }}
+{{- printf "%s-%s" $name .Values.global.environment | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
