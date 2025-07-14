@@ -1,0 +1,6 @@
+<div *ngIf="profile">
+  <h2>Welcome, {{ profile.name }}</h2>
+  <p>Login: {{ profile.login }}</p>
+  <p>Email: {{ profile.email }}</p>
+  <img [src]="profile.avatar_url" alt="avatar">
+</div>

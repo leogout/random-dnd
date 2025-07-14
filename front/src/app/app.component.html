@@ -1,6 +1,15 @@
 <div class="body">
   <app-toolbar></app-toolbar>
 
+  <div class="auth-section">
+    @if (authOAuthService.isLoggedIn) {
+      <span>Welcome, {{ authOAuthService.userName }}!</span>
+      <button mat-button (click)="authOAuthService.logout()">Logout</button>
+    } @else {
+      <button mat-button (click)="authOAuthService.login()">Login</button>
+    }
+  </div>
+
   <div class="container">
     <h2>Random PNJ generator</h2>
     <p>Choose your character's attributes and let AI do the rest</p>

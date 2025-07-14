@@ -12,6 +12,7 @@ import { CharacterComponent } from './components/character/character.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { Character } from './models';
 import { ApiService } from './services/api.service';
+import { AuthOAuthService } from './services/auth-oauth.service';
 
 @Component({
     selector: 'app-root',
@@ -44,7 +45,7 @@ export class AppComponent {
 
   form!: FormGroup;
 
-  constructor(private api: ApiService, private fb: FormBuilder) {}
+  constructor(private api: ApiService, private fb: FormBuilder, public authOAuthService: AuthOAuthService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
