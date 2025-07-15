@@ -2,13 +2,17 @@
 
 ## Backend Authentication Setup
 
-- [ ] Install backend authentication dependencies
+- [x] Install backend authentication dependencies
   - Install PyJWT library for token validation
   - Install google-auth library for Google OAuth2 token verification
   - Update requirements.txt or pyproject.toml with new dependencies
   - _Requirements: 1.1, 1.4_
 
 - [ ] Create backend authentication middleware
+
+
+
+
   - Create auth.py module with token validation functions
   - Implement Google OAuth2 token verification function
   - Add JWT token decoding and validation logic

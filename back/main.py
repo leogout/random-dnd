@@ -12,6 +12,8 @@ from model import Race, Languages
 from config import get_settings
 import logging
 
+from auth import authenticated
+
 app = FastAPI()
 
 # Database setup
@@ -58,6 +60,7 @@ def db_check():
 
 
 @app.get("/character")
+@authenticated
 def read_root(race: Annotated[Race, Query()], language: Annotated[Languages, Query()]):
     client = Mistral(
         api_key=get_settings().llm_api_key,
