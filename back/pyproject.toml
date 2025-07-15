@@ -10,6 +10,9 @@ dependencies = [
     "pydantic-settings>=2.5.2",
     "sqlalchemy>=2.0.31",
     "psycopg2-binary>=2.9.9",
+    "pyjwt>=2.10.1",
+    "google-auth>=2.40.3",
+    "requests>=2.32.4",
 ]
 
 [tool.uv]
@@ -17,4 +20,5 @@ dev-dependencies = [
     "ruff>=0.11.13",
     "pytest>=8.4.0",
     "ty>=0.0.1a10",
+    "pytest-asyncio>=1.0.0",
 ]
